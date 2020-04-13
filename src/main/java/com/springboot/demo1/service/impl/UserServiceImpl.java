@@ -8,5 +8,7 @@ public interface UserServiceImpl {
 
     public List<User> getUserList();
 
+    public User getUserByUserId(Integer userId);
 
+    public String addUser(User user);
 }

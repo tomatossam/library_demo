@@ -18,5 +18,22 @@ public class UserService implements UserServiceImpl {
         return userRepository.findAll();
     }
 
+    public User getUserByUserId(Integer userId) {
+        return userRepository.getUserByUserId(userId);
+    }
+
+    public String addUser(User user) {
+        Integer numByEmail = userRepository.countUserByEmail(user.getEmail());
+        Integer numByUserName = userRepository.countUserByUserName(user.getUserName());
+        if(numByEmail > 0) {
+            return "该邮箱已被使用";
+        } else if(numByUserName > 0) {
+            return "该用户名已被使用";
+        } else {
+            userRepository.save(user);
+        }
+        return "新建用户成功";
+    }
+
 
 }
