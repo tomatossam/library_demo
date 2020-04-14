@@ -1,8 +1,8 @@
 package com.springboot.demo1.controller;
 
-import com.springboot.demo1.entity.BorrowInfo;
+import com.springboot.demo1.entity.BaseException;
+import com.springboot.demo1.entity.Response;
 import com.springboot.demo1.service.BorrowInfoService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -15,29 +15,21 @@ public class BorrowInfoController {
     @Resource
     private BorrowInfoService borrowInfoService;
 
-    //获取借阅信息列表
+    /**
+     * 获取借阅信息列表
+     */
     @PostMapping(value = "/get")
-    public List<BorrowInfo> getBorrowInfoList() {
-        return borrowInfoService.getBorrowInfoList();
+    public Response getBorrowInfoList() {
+        return new Response().normalResponse(borrowInfoService.getBorrowInfoList());
     }
 
-    //借书还书
+    /**
+     * 借书/还书
+     */
     @PostMapping(value = "/update/{userId}/{bookId}/{type}")
-    public String updateBorrowInfo(@PathVariable Integer userId,@PathVariable Integer bookId,@PathVariable Integer type) {
-        if(userId == null || bookId == null || type == null) {
-            return "error 504";
-        } else {
-            BorrowInfo borrowInfo = new BorrowInfo();
-            borrowInfo.setUserId(userId);
-            borrowInfo.setBookId(bookId);
-            borrowInfo.setType(type);
-            String res = borrowInfoService.updateBorrowInfoList(borrowInfo);
-            if(res != null) {
-                return res;
-            } else {
-                return "内部错误";
-            }
-        }
+    public Response updateBorrowInfo(@PathVariable Integer userId,@PathVariable Integer bookId,@PathVariable Integer type) throws BaseException {
+        borrowInfoService.updateBorrowInfoList(userId, bookId, type);
+        return new Response().normalResponse();
     }
 
 }

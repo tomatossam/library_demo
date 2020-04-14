@@ -1,6 +1,7 @@
 package com.springboot.demo1.service;
 
 import com.springboot.demo1.dao.UserRepository;
+import com.springboot.demo1.entity.BaseException;
 import com.springboot.demo1.entity.User;
 import com.springboot.demo1.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,28 @@ public class UserService implements UserServiceImpl {
         return userRepository.getUserByUserId(userId);
     }
 
-    public String addUser(User user) {
-        Integer numByEmail = userRepository.countUserByEmail(user.getEmail());
-        Integer numByUserName = userRepository.countUserByUserName(user.getUserName());
-        if(numByEmail > 0) {
-            return "该邮箱已被使用";
-        } else if(numByUserName > 0) {
-            return "该用户名已被使用";
-        } else {
-            userRepository.save(user);
+    public void addUser(String userName, String passWord, String email, String nickName) throws BaseException {
+        if(passWord == null || passWord.length() < 6) {
+            throw new BaseException("密码格式有误", 506) ;
         }
-        return "新建用户成功";
+        if(email == null || email.length() < 6) {
+            throw new BaseException("邮箱格式有误", 506) ;
+        }
+        Integer numByEmail = userRepository.countUserByEmail(email);
+        Integer numByUserName = userRepository.countUserByUserName(userName);
+        if(numByEmail > 0) {
+            throw new BaseException("该邮箱已被使用", 506);
+        }
+        if(numByUserName > 0) {
+            throw new BaseException("该用户名已被占用", 506);
+        }
+        User user = new User();
+        user.setUserName(userName);
+        user.setEmail(email);
+        user.setPassWord(passWord);
+        user.setNickName(nickName);
+        userRepository.save(user);
+
     }
 
 
