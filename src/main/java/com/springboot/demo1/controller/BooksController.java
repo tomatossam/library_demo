@@ -19,7 +19,7 @@ public class BooksController {
     /**
      * 获取图书列表
      */
-    @PostMapping(value = "/get")
+    @GetMapping
     public Response getBooksList(){
         List<Books> booksList = booksService.getBooksList();
         return new Response().normalResponse(booksList);
@@ -30,7 +30,7 @@ public class BooksController {
      * @param bookId
      * @return
      */
-    @PostMapping(value = "/get/{bookId}")
+    @GetMapping(value = "/{bookId}")
     public Response getBookById(@PathVariable Integer bookId) throws BaseException{
         Books books = booksService.getBookById(bookId);
         return new Response().normalResponse(books);
@@ -42,7 +42,7 @@ public class BooksController {
      * @return
      * @throws BaseException
      */
-    @PostMapping(value = "/add/{bookName}")
+    @PostMapping(value = "/{bookName}")
     public Response addBook(@PathVariable String bookName) throws BaseException{
         Response response = new Response();
         booksService.addBook(bookName);
@@ -54,7 +54,7 @@ public class BooksController {
      * @param bookId
      * @return
      */
-    @PostMapping(value = "/delete/{bookId}")
+    @DeleteMapping(value = "/{bookId}")
     public Response deleteBook(@PathVariable Integer bookId) throws BaseException{
         Response response = new Response();
         booksService.deleteBook(bookId);

@@ -25,7 +25,7 @@ public class UserController {
     /**
      * 根据用户ID获取用户
      */
-    @PostMapping(value = "/get/{userId}")
+    @PostMapping(value = "/{userId}")
     public Response getUserById(@PathVariable Integer userId){
         return new Response().normalResponse(userService.getUserByUserId(userId));
     }
@@ -33,7 +33,7 @@ public class UserController {
     /**
      * 添加用户
      */
-    @PostMapping(value = "/add/{userName}/{passWord}/{email}/{nickName}")
+    @PostMapping(value = "/{userName}/{passWord}/{email}/{nickName}")
     public Response addUser(@PathVariable String userName,@PathVariable String passWord,@PathVariable String email,
                           @PathVariable String nickName) throws BaseException{
         userService.addUser(userName, passWord, email, nickName);

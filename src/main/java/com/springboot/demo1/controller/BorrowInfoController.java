@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/borrowInfo")
+@RequestMapping(value = "/borrowInfos")
 public class BorrowInfoController {
 
     @Resource
